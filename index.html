@@ -1,8 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Chitti 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ffd1dc, #ffe6f0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Poppins", "Comic Sans MS", sans-serif;
+    overflow: hidden;
+  }
+
+  .card {
+    background: #fff;
+    padding: 28px 24px 38px;
+    border-radius: 26px;
+    text-align: center;
+    width: 340px;
+    box-shadow: 0 20px 40px rgba(255, 105, 180, 0.35);
+    position: relative;
+  }
+
+  h1 {
+    color: #ff4f81;
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+  }
+
+  .subtext {
+    color: #ff7aa2;
+    font-size: 1rem;
+    margin-bottom: 14px;
+  }
+
+  .pandas img {
+    width: 180px;
+    margin: 10px auto 18px;
+    display: block;
+  }
+
+  .buttons {
+    position: relative;
+    height: 120px;
+    margin-top: 10px;
+  }
+
+  button {
+    border: none;
+    border-radius: 30px;
+    padding: 12px 26px;
+    font-size: 1.1rem;
+    cursor: pointer;
+  }
+
+  .yes {
+    background: #ff4f81;
+    color: white;
+  }
+
+  .no {
+    background: #ffc1d6;
+    color: #ff4f81;
+    position: absolute;
+    left: 170px;
+    top: 40px;
+  }
+
+  .heart {
+    position: fixed;
+    bottom: -20px;
+    font-size: 18px;
+    animation: floatUp 6s linear infinite;
+    opacity: 0.8;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-110vh) scale(1.6); opacity: 0; }
+  }
+
+  .confetti {
+    position: fixed;
+    top: -10px;
+    font-size: 20px;
+    animation: fall 3s linear forwards;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(110vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card" id="content">
+  <h1>Chitti, will you be my Valentine? 💕</h1>
+  <div class="subtext">Happy Valentine’s Day IN ADVANCE 💖</div>
+
+  <div class="pandas">
+    <img src="pandas.gif" alt="Hugging Pandas">
+  </div>
+
+  <div class="buttons" id="buttons">
+    <button class="yes" onclick="yesClicked()">Yes 💖</button>
+    <button class="no" id="noBtn">No 🙈</button>
+  </div>
+</div>
+
+<audio id="loveSong" loop>
+  <source src="hamsaroo.mp3" type="audio/mpeg">
+</audio>
+
 <script>
+  let active = true;
+
   const noBtn = document.getElementById("noBtn");
-  const buttons = document.querySelector(".buttons");
+  const buttons = document.getElementById("buttons");
 
   function runAway() {
+    if (!active) return;
+
     const maxX = buttons.clientWidth - noBtn.offsetWidth;
     const maxY = buttons.clientHeight - noBtn.offsetHeight;
 
@@ -16,26 +143,21 @@
   });
 
   function yesClicked() {
+    active = false; // stop No logic completely
     document.getElementById("loveSong").play();
 
     document.getElementById("content").innerHTML = `
       <h1>Yayyy Chitti 💖</h1>
-      <p style="color:#ff4f81; font-size:1.1rem;">
-        Happy Valentine’s Day IN ADVANCE 🥰
-      </p>
+      <p class="subtext">Happy Valentine’s Day IN ADVANCE 🥰</p>
 
-      <img src="pandas.gif"
-           alt="Hugging Pandas"
-           style="width:170px; margin:10px auto; display:block;">
+      <img src="pandas.gif" style="width:170px; margin:10px auto; display:block;">
 
-      <!-- 🖼️ Your photo together -->
       <img src="us.jpg"
-           alt="Us 💕"
            style="
              width:100%;
              max-width:260px;
              border-radius:18px;
-             margin:15px auto 5px;
+             margin:15px auto;
              box-shadow:0 10px 25px rgba(255,79,129,0.35);
              display:block;
            ">
@@ -45,14 +167,25 @@
       </div>
     `;
 
-    // 🎉 Confetti burst
-    for (let i = 0; i < 40; i++) {
-      const confetti = document.createElement("div");
-      confetti.className = "confetti";
-      confetti.innerHTML = ["🎉","💖","✨","💗"][Math.floor(Math.random()*4)];
-      confetti.style.left = Math.random() * 100 + "vw";
-      document.body.appendChild(confetti);
-      setTimeout(() => confetti.remove(), 3000);
+    for (let i = 0; i < 35; i++) {
+      const c = document.createElement("div");
+      c.className = "confetti";
+      c.innerHTML = ["🎉","💖","✨","💗"][Math.floor(Math.random()*4)];
+      c.style.left = Math.random() * 100 + "vw";
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 3000);
     }
   }
+
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💗";
+    heart.style.left = Math.random() * 100 + "vw";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+  }, 350);
 </script>
+
+</body>
+</html>
