@@ -19,8 +19,8 @@
 
   .card {
     background: #fff;
-    padding: 30px 25px 40px;
-    border-radius: 25px;
+    padding: 28px 24px 38px;
+    border-radius: 26px;
     text-align: center;
     width: 340px;
     box-shadow: 0 20px 40px rgba(255, 105, 180, 0.35);
@@ -29,37 +29,21 @@
 
   h1 {
     color: #ff4f81;
-    font-size: 1.8rem;
-    margin-bottom: 15px;
+    font-size: 1.6rem;
+    margin-bottom: 6px;
   }
 
-  /* 🐼 Panda section */
-  .pandas {
-    position: relative;
-    height: 80px;
-    margin-bottom: 20px;
+  .subtext {
+    color: #ff7aa2;
+    font-size: 1rem;
+    margin-bottom: 14px;
   }
 
-  .panda {
-    font-size: 3.2rem;
-    position: absolute;
-    top: 0;
-    animation: hug 1.8s ease-in-out infinite;
-  }
-
-  .panda.left {
-    left: 80px;
-  }
-
-  .panda.right {
-    right: 80px;
-    animation-delay: 0.9s;
-  }
-
-  @keyframes hug {
-    0% { transform: translateX(0) scale(1); }
-    50% { transform: translateX(10px) scale(1.05); }
-    100% { transform: translateX(0) scale(1); }
+  /* 🐼 Panda */
+  .pandas img {
+    width: 180px;
+    margin: 10px auto 18px;
+    display: block;
   }
 
   .buttons {
@@ -74,16 +58,18 @@
     padding: 12px 26px;
     font-size: 1.1rem;
     cursor: pointer;
-    transition: transform 0.2s ease;
-  }
-
-  button:active {
-    transform: scale(0.95);
   }
 
   .yes {
     background: #ff4f81;
     color: white;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255,79,129,0.6); }
+    70% { box-shadow: 0 0 0 15px rgba(255,79,129,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,79,129,0); }
   }
 
   .no {
@@ -104,12 +90,21 @@
   }
 
   @keyframes floatUp {
-    0% {
-      transform: translateY(0) scale(1);
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(-110vh) scale(1.6);
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-110vh) scale(1.6); opacity: 0; }
+  }
+
+  /* 🎉 Confetti */
+  .confetti {
+    position: fixed;
+    top: -10px;
+    font-size: 20px;
+    animation: fall 3s linear forwards;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(110vh) rotate(360deg);
       opacity: 0;
     }
   }
@@ -120,11 +115,10 @@
 
 <div class="card" id="content">
   <h1>Chitti, will you be my Valentine? 💕</h1>
+  <div class="subtext">Happy Valentine’s Day IN ADVANCE 💖</div>
 
-  <!-- 🐼 Hugging pandas -->
   <div class="pandas">
-    <div class="panda left">🐼</div>
-    <div class="panda right">🐼</div>
+    <img src="https://media.tenor.com/1Ck8n3n1xZQAAAAi/panda-hug.gif" alt="Hugging Pandas">
   </div>
 
   <div class="buttons">
@@ -133,7 +127,6 @@
   </div>
 </div>
 
-<!-- 🎵 Hamsaro song -->
 <audio id="loveSong" loop>
   <source src="hamsaroo.mp3" type="audio/mpeg">
 </audio>
@@ -146,14 +139,10 @@
     const maxX = buttons.clientWidth - noBtn.offsetWidth;
     const maxY = buttons.clientHeight - noBtn.offsetHeight;
 
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
-
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+    noBtn.style.left = Math.random() * maxX + "px";
+    noBtn.style.top = Math.random() * maxY + "px";
   }
 
-  // Run away BEFORE click
   noBtn.addEventListener("pointerdown", function(e) {
     e.preventDefault();
     runAway();
@@ -164,12 +153,25 @@
 
     document.getElementById("content").innerHTML = `
       <h1>Yayyy Chitti 💖</h1>
-      <p style="color:#ff4f81; font-size:1.2rem;">
-        I knew you’d say YES 🥰<br>
-        Happy Valentine’s Day 💕
+      <p style="color:#ff4f81; font-size:1.1rem;">
+        Happy Valentine’s Day IN ADVANCE 🥰
       </p>
-      <div style="font-size:3rem; margin-top:15px;">🐼💞🐼</div>
+      <img src="https://media.tenor.com/1Ck8n3n1xZQAAAAi/panda-hug.gif"
+           style="width:180px; margin-top:15px;">
+      <div style="margin-top:10px; font-size:1rem; color:#ff7aa2;">
+        From someone who loves you a lot 💕
+      </div>
     `;
+
+    // 🎉 Confetti burst
+    for (let i = 0; i < 40; i++) {
+      const confetti = document.createElement("div");
+      confetti.className = "confetti";
+      confetti.innerHTML = ["🎉","💖","✨","💗"][Math.floor(Math.random()*4)];
+      confetti.style.left = Math.random() * 100 + "vw";
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 3000);
+    }
   }
 
   // Floating hearts
@@ -180,7 +182,6 @@
     heart.style.left = Math.random() * 100 + "vw";
     heart.style.fontSize = (16 + Math.random() * 18) + "px";
     document.body.appendChild(heart);
-
     setTimeout(() => heart.remove(), 6000);
   }, 350);
 </script>
