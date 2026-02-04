@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine 💕</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ffd1dc, #ffe6f0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Comic Sans MS", "Poppins", sans-serif;
+    overflow: hidden;
+  }
+
+  .card {
+    background: #fff;
+    padding: 35px 30px 40px;
+    border-radius: 25px;
+    text-align: center;
+    width: 320px;
+    box-shadow: 0 20px 40px rgba(255, 105, 180, 0.3);
+    position: relative;
+  }
+
+  h1 {
+    color: #ff4f81;
+    font-size: 1.9rem;
+    margin-bottom: 25px;
+  }
+
+  .buttons {
+    position: relative;
+    height: 120px;
+    margin-top: 20px;
+  }
+
+  button {
+    border: none;
+    border-radius: 30px;
+    padding: 12px 26px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  button:active {
+    transform: scale(0.95);
+  }
+
+  .yes {
+    background: #ff4f81;
+    color: white;
+  }
+
+  .no {
+    background: #ffc1d6;
+    color: #ff4f81;
+    position: absolute;
+    left: 150px;
+    top: 40px;
+  }
+
+  /* floating hearts */
+  .heart {
+    position: fixed;
+    bottom: -20px;
+    font-size: 18px;
+    animation: floatUp 6s linear infinite;
+    opacity: 0.8;
+  }
+
+  @keyframes floatUp {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-110vh) scale(1.6);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card" id="content">
+  <h1>Will you be my Valentine? 💕</h1>
+
+  <div class="buttons">
+    <button class="yes" onclick="yesClicked()">Yes 💖</button>
+    <button class="no" id="noBtn">No 🙈</button>
+  </div>
+</div>
+
+<!-- 🎵 Local music -->
+<audio id="loveSong" loop>
+  <source src="hamsaroo.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const noBtn = document.getElementById("noBtn");
+  const buttons = document.querySelector(".buttons");
+
+  function runAway() {
+    const maxX = buttons.clientWidth - noBtn.offsetWidth;
+    const maxY = buttons.clientHeight - noBtn.offsetHeight;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+  }
+
+  // Runs away BEFORE click registers
+  noBtn.addEventListener("pointerdown", function(e) {
+    e.preventDefault();
+    runAway();
+  });
+
+  function yesClicked() {
+    document.getElementById("loveSong").play();
+
+    document.getElementById("content").innerHTML = `
+      <h1>Yayyy 💕</h1>
+      <p style="color:#ff4f81; font-size:1.2rem;">
+        I knew you’d say YES 🥰<br>
+        Happy Valentine’s Day 💖
+      </p>
+    `;
+  }
+
+  // floating hearts generator
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💗";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (16 + Math.random() * 18) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 6000);
+  }, 350);
+</script>
+
+</body>
+</html>
